@@ -7,7 +7,7 @@ import { useRouter } from "vue-router";
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
   const user = ref(null);
-  const token = ref(storage.getItem("token"));
+  const token = ref(storage.get("token"));
   const loading = ref(false);
   const error = ref(null);
 
@@ -29,8 +29,8 @@ export const useAuthStore = defineStore("auth", () => {
         username: response.user.username,
       };
 
-      storage.setItem("token", response.token);
-      storage.setItem("user", JSON.stringify(user.value));
+      storage.set("token", response.token);
+      storage.set("user", JSON.stringify(user.value));
       router.push("/tasks");
 
       return response;
@@ -44,8 +44,8 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const checkAuth = () => {
-    const savedToken = storage.getItem("token");
-    const savedUser = storage.getItem("user");
+    const savedToken = storage.get("token");
+    const savedUser = storage.get("user");
     if (savedToken && savedUser) {
       token.value = savedToken;
       user.value = JSON.parse(savedUser);
