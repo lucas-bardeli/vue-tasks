@@ -1,14 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import NavBar from "./components/NavBar.vue";
+</script>
 
 <template>
   <div>
-    <header>
-      <nav>
-        <router-link to="/login">Login</router-link>
-        <router-link to="/register">Cadastre-se</router-link>
-        <router-link to="/tasks">Tarefas</router-link>
-      </nav>
-    </header>
+    <NavBar />
     <main>
       <router-view />
     </main>
