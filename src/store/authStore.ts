@@ -1,0 +1,67 @@
+import { defineStore } from "pinia";
+import { ref, computed } from "vue";
+import { authService } from "@/services/authService";
+import { storage } from "@/utils/storage";
+import { useRouter } from "vue-router";
+
+export const useAuthStore = defineStore("auth", () => {
+  const router = useRouter();
+  const user = ref(null);
+  const token = ref(storage.getItem("token"));
+  const loading = ref(false);
+  const error = ref(null);
+
+  const isAuthenticated = computed(() => !!token.value);
+  const currentUser = computed(() => user.value);
+  const isLoading = computed(() => loading.value);
+  const hasError = computed(() => error.value);
+  const userName = computed(() => user.value?.username || "");
+
+  const login = async (credentials) => {
+    loading.value = true;
+    error.value = null;
+    try {
+      const response = await authService.login(credentials);
+      token.value = response.token;
+
+      user.value = {
+        id: response.user.id,
+        username: response.user.username,
+      };
+
+      storage.setItem("token", response.token);
+      storage.setItem("user", JSON.stringify(user.value));
+      router.push("/tasks");
+
+      return response;
+    } catch (error: any) {
+      error.value = error.response?.data?.message || "Erro ao fazer login";
+      console.error(error.value);
+      throw error;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const checkAuth = () => {
+    const savedToken = storage.getItem("token");
+    const savedUser = storage.getItem("user");
+    if (savedToken && savedUser) {
+      token.value = savedToken;
+      user.value = JSON.parse(savedUser);
+    }
+  };
+
+  return {
+    user,
+    token,
+    loading,
+    error,
+    isAuthenticated,
+    currentUser,
+    isLoading,
+    hasError,
+    userName,
+    login,
+  };
+});

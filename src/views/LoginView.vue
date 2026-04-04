@@ -24,8 +24,8 @@ const togglePasswordVisibility = () => {
 <template>
   <div
     :class="[
-      'min-h-screen flex items-center justify-center bg-rocket-gray-50 dark:bg-rocket-gray-900',
-      'py-12 px-4 sm:px-6 lg:px-8',
+      'flex items-center justify-center bg-rocket-gray-50 dark:bg-rocket-gray-900',
+      'py-16 px-4 sm:px-6 lg:px-8',
     ]"
   >
     <div class="max-w-md w-full space-y-8">
