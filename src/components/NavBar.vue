@@ -15,7 +15,7 @@ const { isDark, toggleTheme } = useTheme();
       <MenuItem title="Tarefas" redirectTo="/tasks" />
       <button
         @click="toggleTheme"
-        class="px-4 py-2 rounded-lg text-rocket-gray-600 dark:text-rocket-gray-300 bg-transparent ] border border-rocket-gray-200 dark:border-rocket-gray-800 cursor-pointer transition-all duration-200 font-medium hover:bg-rocket-gray-50 dark:hover:bg-rocket-gray-800 hover:text-rocket-purple-500 dark:hover:text-rocket-purple-400"
+        class="px-4 py-2 rounded-lg text-rocket-gray-600 dark:text-rocket-gray-300 bg-transparent border border-rocket-gray-200 dark:border-rocket-gray-800 cursor-pointer transition-all duration-200 font-medium hover:bg-rocket-gray-50 dark:hover:bg-rocket-gray-800 hover:text-rocket-purple-500 dark:hover:text-rocket-purple-400"
       >
         {{ isDark ? "Modo Claro" : "Modo Escuro" }}
       </button>
