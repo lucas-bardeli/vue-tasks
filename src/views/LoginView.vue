@@ -2,15 +2,27 @@
 import { Rocket, User, Eye, EyeOff, Lock, LogIn } from "lucide-vue-next";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store/authStore";
 
 const router = useRouter();
 const loading = ref(false);
 const showPassword = ref(false);
+const authStore = useAuthStore();
 
 const form = ref({
-  user: "",
+  username: "",
   password: "",
 });
+
+const handleLogin = async () => {
+  try {
+    await authStore.login(form.value);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value;
@@ -53,10 +65,10 @@ const togglePasswordVisibility = () => {
         </p>
       </div>
 
-      <form class="mt-8 space-y-6">
+      <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
         <div class="space-y-4">
           <div>
-            <label for="user" class="sr-only">Usuário</label>
+            <label for="username" class="sr-only">Usuário</label>
             <div class="relative">
               <div
                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"
@@ -64,9 +76,10 @@ const togglePasswordVisibility = () => {
                 <User class="h-5 w-5 text-rocket-gray-400" />
               </div>
               <input
-                id="user"
-                name="user"
+                id="username"
+                name="username"
                 type="text"
+                v-model="form.username"
                 required
                 placeholder="Digite o nome do seu usuário"
                 :class="[
@@ -90,6 +103,7 @@ const togglePasswordVisibility = () => {
                 name="password"
                 type="password"
                 required
+                v-model="form.password"
                 placeholder="Digite a sua senha"
                 :class="[
                   'relative block w-full pl-10 pr-3 py-3 border border-rocket-gray-300',
