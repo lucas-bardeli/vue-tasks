@@ -6,6 +6,7 @@ import { useTasksStore } from "@/store/tasksStore";
 import { onMounted } from "vue";
 
 const tasksStore = useTasksStore();
+
 onMounted(() => {
   tasksStore.loadTasks();
 });
@@ -15,14 +16,6 @@ const handleCreateTask = async (title: string) => {
     await tasksStore.createTask(title);
   } catch (err) {
     console.error("Erro ao criar tarefa: ", err);
-  }
-};
-
-const handleToggleTask = async (id: number, done: boolean) => {
-  try {
-    await tasksStore.toggleTask(id, done);
-  } catch (err) {
-    console.error("Erro ao atualizar tarefa: ", err);
   }
 };
 </script>
@@ -62,16 +55,8 @@ const handleToggleTask = async (id: number, done: boolean) => {
       </div>
 
       <div v-else class="space-y-8">
-        <TaskList
-          title="Pendentes"
-          :tasks="tasksStore.pendingTasks"
-          @toggle="handleToggleTask"
-        />
-        <TaskList
-          title="Concluídas"
-          :tasks="tasksStore.completedTasks"
-          @toggle="handleToggleTask"
-        />
+        <TaskList title="Pendentes" :tasks="tasksStore.pendingTasks" />
+        <TaskList title="Concluídas" :tasks="tasksStore.completedTasks" />
       </div>
     </div>
   </div>

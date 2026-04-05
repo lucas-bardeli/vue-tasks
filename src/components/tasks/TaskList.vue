@@ -22,12 +22,7 @@ const props = defineProps({
     <div
       class="space-y-3 min-h-25 text-rocket-gray-600 dark:text-rocket-gray-300"
     >
-      <TaskItem
-        v-for="task in tasks"
-        :key="task.id"
-        :task="task"
-        @toggle="(id, done) => $emit('toggle', id, done)"
-      />
+      <TaskItem v-for="task in tasks" :key="task.id" :task="task" />
     </div>
   </div>
 </template>

@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import type { Task } from "@/services/tasksService";
 import { Check } from "lucide-vue-next";
+import { useTasksStore } from "@/store/tasksStore";
 
 const props = defineProps<{
   task: Task;
 }>();
 
-const emit = defineEmits(["toggle"]);
+const tasksStore = useTasksStore();
 
-const handleToggle = () => {
-  emit("toggle", props.task.id, !props.task.done);
+const handleToggleTask = async () => {
+  try {
+    await tasksStore.toggleTask(props.task.id, !props.task.done);
+  } catch (err) {
+    console.error("Erro ao atualizar tarefa: ", err);
+  }
 };
 </script>
 
@@ -20,7 +25,7 @@ const handleToggle = () => {
         type="checkbox"
         :checked="task.done"
         class="sr-only peer"
-        @change="handleToggle"
+        @change="handleToggleTask"
       />
       <div
         :class="[
