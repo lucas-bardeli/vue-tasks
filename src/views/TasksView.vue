@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { LoaderCircle } from "lucide-vue-next";
 import TaskForm from "@/components/tasks/TaskForm.vue";
+import TaskList from "@/components/tasks/TaskList.vue";
 import { useTasksStore } from "@/store/tasksStore";
 import { onMounted } from "vue";
 
@@ -22,7 +23,7 @@ const handleCreateTask = async (title: string) => {
   <div>
     <div class="max-w-4xl mx-auto space-y-6">
       <div class="flex items-center justify-between">
-        <h1 class="text-3xl font-bold text-rocket-gray-900 dark:text-white">
+        <h1 class="text-2xl font-bold text-rocket-gray-900 dark:text-white">
           Minhas Tarefas
         </h1>
       </div>
@@ -31,7 +32,7 @@ const handleCreateTask = async (title: string) => {
 
       <div
         v-if="tasksStore.error"
-        class="p-3 bg-red-200 text-center rounded-lg font-bold"
+        class="p-2 bg-red-200 text-center rounded-lg font-bold"
       >
         <p class="text-red-700">{{ tasksStore.error }}</p>
       </div>
@@ -53,8 +54,8 @@ const handleCreateTask = async (title: string) => {
       </div>
 
       <div v-else class="space-y-8">
-        <TaskList title="Pendentes" />
-        <TaskList title="Concluídas" />
+        <TaskList title="Pendentes" :tasks="tasksStore.pendingTasks" />
+        <TaskList title="Concluídas" :tasks="tasksStore.completedTasks" />
       </div>
     </div>
   </div>
