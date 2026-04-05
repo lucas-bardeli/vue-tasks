@@ -1,18 +1,33 @@
 <script setup lang="ts">
 import { Plus } from "lucide-vue-next";
+import { ref } from "vue";
+
+const taskTitle = ref("");
+
+const handleSubmit = () => {
+  if (!taskTitle.value.trim()) return;
+  alert(taskTitle.value);
+  taskTitle.value = "";
+};
 </script>
 
 <template>
-  <form action="">
+  <form
+    @submit.prevent="handleSubmit"
+    :class="[
+      'bg-white dark:bg-gray-800 p-6 rounded-lg border border-rocket-gray-200 dark:border-rocket-gray-700',
+    ]"
+  >
     <div class="flex gap-4">
       <input
+        v-model="taskTitle"
         type="text"
         placeholder="Digite o título da tarefa"
         required
         :class="[
           'flex-1 px-4 py-3 border border-rocket-gray-300 dark:border-rocket-gray-700 rounded-lg',
           'bg-white dark:bg-rocket-gray-800 text-rocket-gray-900 dark:text-white',
-          'focus:outline-none focus:ring-rocket-purple-500 focus:border-transparent transition-colors',
+          'focus:outline-none focus:ring-rocket-purple-500 focus:border-rocket-purple-500 transition-colors',
         ]"
       />
       <button
