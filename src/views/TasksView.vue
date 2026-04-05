@@ -17,6 +17,14 @@ const handleCreateTask = async (title: string) => {
     console.error("Erro ao criar tarefa: ", err);
   }
 };
+
+const handleToggleTask = async (id: number, done: boolean) => {
+  try {
+    await tasksStore.toggleTask(id, done);
+  } catch (err) {
+    console.error("Erro ao atualizar tarefa: ", err);
+  }
+};
 </script>
 
 <template>
@@ -54,8 +62,16 @@ const handleCreateTask = async (title: string) => {
       </div>
 
       <div v-else class="space-y-8">
-        <TaskList title="Pendentes" :tasks="tasksStore.pendingTasks" />
-        <TaskList title="Concluídas" :tasks="tasksStore.completedTasks" />
+        <TaskList
+          title="Pendentes"
+          :tasks="tasksStore.pendingTasks"
+          @toggle="handleToggleTask"
+        />
+        <TaskList
+          title="Concluídas"
+          :tasks="tasksStore.completedTasks"
+          @toggle="handleToggleTask"
+        />
       </div>
     </div>
   </div>
