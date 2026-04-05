@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { LoaderCircle } from "lucide-vue-next";
+import TaskForm from "@/components/tasks/TaskForm.vue";
 </script>
 
 <template>
@@ -11,7 +12,7 @@ import { LoaderCircle } from "lucide-vue-next";
         </h1>
       </div>
 
-      <h2>Form aqui</h2>
+      <TaskForm />
 
       <div class="p-3 bg-red-200 text-center rounded-lg font-bold">
         <p class="text-red-700">Se tiver erro aqui</p>
