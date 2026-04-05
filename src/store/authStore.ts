@@ -17,8 +17,8 @@ interface User {
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();
   const user = ref<User | null>(null);
-  const token = ref(storage.get("token"));
-  const loading = ref(false);
+  const token = ref<string | null | undefined>(storage.get("token"));
+  const loading = ref<boolean>(false);
   const error = ref<string | null>(null);
 
   const isAuthenticated = computed(() => !!token.value);
@@ -93,6 +93,15 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
+  const logout = () => {
+    token.value = null;
+    user.value = null;
+    error.value = null;
+    storage.remove("token");
+    storage.remove("user");
+    router.push("/login");
+  };
+
   const checkAuth = () => {
     const savedToken = storage.get("token");
     const savedUser = storage.get("user");
@@ -115,5 +124,6 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     checkAuth,
     register,
+    logout,
   };
 });

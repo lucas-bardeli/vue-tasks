@@ -9,6 +9,10 @@ const { isDark, toggleTheme } = useTheme();
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const username = computed(() => authStore.userName);
+
+const handleLogout = () => {
+  authStore.logout();
+};
 </script>
 
 <template>
@@ -34,16 +38,30 @@ const username = computed(() => authStore.userName);
       redirectTo="/register"
     />
     <MenuItem v-if="isAuthenticated" title="Tarefas" redirectTo="/tasks" />
-    <button
-      @click="toggleTheme"
-      :class="[
-        'p-2 rounded-lg text-rocket-gray-600 dark:text-rocket-gray-300 bg-transparent border border-rocket-gray-200',
-        'dark:border-rocket-gray-800 cursor-pointer transition-all duration-200 font-medium',
-        'hover:bg-rocket-gray-50 dark:hover:bg-rocket-gray-800 hover:text-rocket-purple-500 dark:hover:text-rocket-purple-400',
-      ]"
-    >
-      <Moon v-if="isDark" />
-      <Sun v-else />
-    </button>
+    <div class="flex items-center gap-2">
+      <button
+        v-if="isAuthenticated"
+        title="Logout"
+        @click="handleLogout"
+        :class="[
+          'p-2 rounded-lg text-rocket-gray-600 dark:text-rocket-gray-300 bg-transparent border border-rocket-gray-200',
+          'dark:border-rocket-gray-800 cursor-pointer transition-all duration-200 font-medium',
+          'hover:bg-rocket-gray-50 dark:hover:bg-rocket-gray-800 hover:text-rocket-purple-500 dark:hover:text-rocket-purple-400',
+        ]"
+      >
+        Sair
+      </button>
+      <button
+        @click="toggleTheme"
+        :class="[
+          'p-2 rounded-lg text-rocket-gray-600 dark:text-rocket-gray-300 bg-transparent border border-rocket-gray-200',
+          'dark:border-rocket-gray-800 cursor-pointer transition-all duration-200 font-medium',
+          'hover:bg-rocket-gray-50 dark:hover:bg-rocket-gray-800 hover:text-rocket-purple-500 dark:hover:text-rocket-purple-400',
+        ]"
+      >
+        <Moon v-if="isDark" />
+        <Sun v-else />
+      </button>
+    </div>
   </header>
 </template>
