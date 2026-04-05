@@ -3,10 +3,17 @@ import { Plus } from "lucide-vue-next";
 import { ref } from "vue";
 
 const taskTitle = ref("");
+const emit = defineEmits(["submit"]);
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const handleSubmit = () => {
   if (!taskTitle.value.trim()) return;
-  alert(taskTitle.value);
+  emit("submit", taskTitle.value);
   taskTitle.value = "";
 };
 </script>
@@ -32,6 +39,7 @@ const handleSubmit = () => {
       />
       <button
         type="submit"
+        :disabled="loading"
         :class="[
           'px-6 py-3 bg-rocket-purple-500 hover:bg-rocket-purple-600 rounded-lg',
           'text-white font-medium cursor-pointer transition-colors',
