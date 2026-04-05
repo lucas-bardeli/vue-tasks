@@ -52,8 +52,9 @@ const handleCreateTask = async (title: string) => {
         </p>
       </div>
 
-      <div v-else>
-        <p>Lista de tarefas aqui</p>
+      <div v-else class="space-y-8">
+        <TaskList title="Pendentes" />
+        <TaskList title="Concluídas" />
       </div>
     </div>
   </div>
