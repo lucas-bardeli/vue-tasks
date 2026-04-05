@@ -2,6 +2,7 @@
 import type { Task } from "@/services/tasksService";
 import { Check } from "lucide-vue-next";
 import { useTasksStore } from "@/store/tasksStore";
+import { computed, ref } from "vue";
 
 const props = defineProps<{
   task: Task;
@@ -15,6 +16,27 @@ const handleToggleTask = async () => {
   } catch (err) {
     console.error("Erro ao atualizar tarefa: ", err);
   }
+};
+
+const editingTitle = ref("");
+const editingTask = () => {
+  editingTitle.value = props.task.title;
+  tasksStore.setEditingTaskId(props.task);
+};
+const isEditing = computed(() => tasksStore.editingTaskId === props.task.id);
+
+const cancelTaskEdit = () => {
+  editingTitle.value = "";
+  tasksStore.setEditingTaskId(null);
+};
+
+const saveTaskEdit = () => {
+  alert(
+    "está salvando a tarefa de " +
+      props.task.title +
+      " para " +
+      editingTitle.value,
+  );
 };
 </script>
 
@@ -46,7 +68,15 @@ const handleToggleTask = async () => {
       </div>
     </label>
     <div class="flex-1">
+      <input
+        v-if="isEditing"
+        v-model="editingTitle"
+        @keyup.esc="cancelTaskEdit"
+        @keyup.enter="saveTaskEdit"
+      />
       <p
+        v-else
+        @dblclick="editingTask"
         :class="[
           'cursor-pointer select-none',
           task.done

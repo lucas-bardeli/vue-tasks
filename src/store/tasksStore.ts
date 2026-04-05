@@ -6,41 +6,54 @@ export const useTasksStore = defineStore("tasks", () => {
   const tasks = ref<Task[]>([]);
   const error = ref<string | null>(null);
   const loading = ref<boolean>(false);
+  const editingTaskId = ref<number | null>(null);
 
-  const loadTasks = async (): Promise<void> => {
-    try {
-      loading.value = true;
-      error.value = null;
-      tasks.value = await tasksService.getAll();
-    } catch (err) {
-      const axiosError = err as { response?: { data?: { message?: string } } };
-      error.value =
-        axiosError.response?.data?.message || "Erro ao carregar tarefas";
-      console.log(`Erro ao carregar tarefas: ${err}`);
-    } finally {
-      loading.value = false;
-    }
+  // const loadTasks = async (): Promise<void> => {
+  //   try {
+  //     loading.value = true;
+  //     error.value = null;
+  //     tasks.value = await tasksService.getAll();
+  //   } catch (err) {
+  //     const axiosError = err as { response?: { data?: { message?: string } } };
+  //     error.value =
+  //       axiosError.response?.data?.message || "Erro ao carregar tarefas";
+  //     console.log(`Erro ao carregar tarefas: ${err}`);
+  //   } finally {
+  //     loading.value = false;
+  //   }
+  // };
+
+  // Lógica local sem api
+  const loadTasks = async (): Promise<Task[]> => {
+    return tasks.value;
   };
 
+  // const createTask = async (title: string): Promise<Task> => {
+  //   loading.value = true;
+  //   error.value = null;
+  //   try {
+  //     const newTask = await tasksService.create({
+  //       title: title.trim(),
+  //       done: false,
+  //     });
+  //     tasks.value.push(newTask);
+  //     return newTask;
+  //   } catch (err) {
+  //     const axiosError = err as { response?: { data?: { message?: string } } };
+  //     error.value =
+  //       axiosError.response?.data?.message || "Erro ao criar tarefa";
+  //     console.log(`Erro ao criar tarefa: ${err}`);
+  //     throw err;
+  //   } finally {
+  //     loading.value = false;
+  //   }
+  // };
+
+  // Lógica local sem api
   const createTask = async (title: string): Promise<Task> => {
-    loading.value = true;
-    error.value = null;
-    try {
-      const newTask = await tasksService.create({
-        title: title.trim(),
-        done: false,
-      });
-      tasks.value.push(newTask);
-      return newTask;
-    } catch (err) {
-      const axiosError = err as { response?: { data?: { message?: string } } };
-      error.value =
-        axiosError.response?.data?.message || "Erro ao criar tarefa";
-      console.log(`Erro ao criar tarefa: ${err}`);
-      throw err;
-    } finally {
-      loading.value = false;
-    }
+    const newTask = { id: Date.now(), title, done: false };
+    tasks.value.push(newTask);
+    return newTask;
   };
 
   const updateTask = async (
@@ -97,21 +110,32 @@ export const useTasksStore = defineStore("tasks", () => {
     return tasks.value.filter((task) => task.done);
   });
 
-  const toggleTask = async (id: number, done: boolean): Promise<Task> => {
-    try {
-      const updatedTask = await tasksService.update(id, { done });
-      const index = tasks.value.findIndex((task) => task.id === id);
-      if (index !== -1) {
-        tasks.value[index] = updatedTask;
-      }
-      return updatedTask;
-    } catch (err) {
-      const axiosError = err as { response?: { data?: { message?: string } } };
-      error.value =
-        axiosError.response?.data?.message || "Erro ao atualizar tarefa";
-      console.log(`Erro ao atualizar tarefa: ${err}`);
-      throw err;
-    }
+  // const toggleTask = async (id: number, done: boolean): Promise<Task> => {
+  //   try {
+  //     const updatedTask = await tasksService.update(id, { done });
+  //     const index = tasks.value.findIndex((task) => task.id === id);
+  //     if (index !== -1) {
+  //       tasks.value[index] = updatedTask;
+  //     }
+  //     return updatedTask;
+  //   } catch (err) {
+  //     const axiosError = err as { response?: { data?: { message?: string } } };
+  //     error.value =
+  //       axiosError.response?.data?.message || "Erro ao atualizar tarefa";
+  //     console.log(`Erro ao atualizar tarefa: ${err}`);
+  //     throw err;
+  //   }
+  // };
+
+  // Lógica local sem api
+  const toggleTask = async (id: number, done: boolean) => {
+    const index = tasks.value.findIndex((t) => t.id === id);
+    if (index !== -1) tasks.value[index].done = done;
+  };
+
+  const setEditingTaskId = (task: Task | null): void => {
+    editingTaskId.value = null;
+    if (task) editingTaskId.value = task.id;
   };
 
   return {
@@ -125,5 +149,7 @@ export const useTasksStore = defineStore("tasks", () => {
     loading,
     pendingTasks,
     completedTasks,
+    editingTaskId,
+    setEditingTaskId,
   };
 });
