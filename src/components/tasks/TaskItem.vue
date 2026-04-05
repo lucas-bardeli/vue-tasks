@@ -30,13 +30,19 @@ const cancelTaskEdit = () => {
   tasksStore.setEditingTaskId(null);
 };
 
-const saveTaskEdit = () => {
-  alert(
-    "está salvando a tarefa de " +
-      props.task.title +
-      " para " +
-      editingTitle.value,
-  );
+const saveTaskEdit = async () => {
+  try {
+    if (!editingTitle.value.trim()) {
+      cancelTaskEdit();
+      return;
+    }
+    await tasksStore.updateTask(props.task.id, editingTitle.value);
+    alert("Tarefa atualizada com sucesso!");
+  } catch (err) {
+    console.error("Erro ao atualizar tarefa: ", err);
+  } finally {
+    cancelTaskEdit();
+  }
 };
 </script>
 
