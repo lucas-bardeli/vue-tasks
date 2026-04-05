@@ -25,7 +25,12 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       storage.remove("token");
       storage.remove("user");
-      window.location.href = "/login";
+
+      const authError = new Error("Usuário e/ou senha inválidos.");
+      authError.response = error.response;
+      authError.isAuthError = true;
+
+      return Promise.reject(authError);
     }
     return Promise.reject(error);
   },

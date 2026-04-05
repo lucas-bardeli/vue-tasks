@@ -34,10 +34,14 @@ export const useAuthStore = defineStore("auth", () => {
       router.push("/tasks");
 
       return response;
-    } catch (error: any) {
-      error.value = error.response?.data?.message || "Erro ao fazer login";
+    } catch (err: any) {
+      if (err.isAuthError) {
+        error.value = err.message;
+        throw err;
+      }
+      error.value = err.response?.data?.message || "Erro ao fazer login";
       console.error(error.value);
-      throw error;
+      throw err;
     } finally {
       loading.value = false;
     }
