@@ -14,9 +14,9 @@ const props = defineProps({
 <template>
   <router-link
     :class="[
-      'px-6 py-3 text-rocket-purple-500 dark:text-rocket-purple-400 font-medium rounded-lg',
-      'border border-transparent transition-all duration-200 hover:bg-rocket-purple-500 dark:hover:bg-rocket-purple-600',
-      'hover:text-white hover:no-underline hover:border-rocket-purple-500 dark:hover:border-rocket-purple-400',
+      'my-3 text-gray-900 dark:text-white font-medium rounded-lg',
+      'border border-transparent transition-all duration-200',
+      'hover:text-rocket-purple-500 hover:underline',
     ]"
     :to="redirectTo"
     >{{ title }}</router-link

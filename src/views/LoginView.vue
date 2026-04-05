@@ -56,8 +56,8 @@ const togglePasswordVisibility = () => {
           <router-link
             to="/register"
             :class="[
-              'font-medium text-rocket-purple-500 hover:text-rocket-purple-900',
-              'dark:text-rocket-purple-400 dark:hover:text-rocket-purple-300 transition-colors',
+              'font-medium text-rocket-purple-500 hover:text-rocket-purple-600 hover:underline',
+              'dark:text-rocket-purple-400 dark:hover:text-rocket-purple-300 transition-all duration-200',
             ]"
           >
             crie uma nova conta
@@ -73,7 +73,9 @@ const togglePasswordVisibility = () => {
               <div
                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"
               >
-                <User class="h-5 w-5 text-rocket-gray-400" />
+                <User
+                  class="h-5 w-5 text-rocket-gray-400 dark:text-rocket-gray-300"
+                />
               </div>
               <input
                 id="username"
@@ -84,7 +86,7 @@ const togglePasswordVisibility = () => {
                 placeholder="Digite o nome do seu usuário"
                 :class="[
                   'relative block w-full pl-10 pr-3 py-3 border border-rocket-gray-300',
-                  'dark:border-rocket-gray-700 placeholder-rocket-gray-500 dark:placeholder-rocket-gray-400',
+                  'dark:border-rocket-gray-700 placeholder-rocket-gray-500 dark:placeholder-rocket-gray-300',
                   'text-rocket-gray-900 dark:text-white rounded-lg bg-white dark:bg-rocket-gray-800',
                   'focus:outline-none focus:ring-rocket-purple-500 focus:border-rocket-purple-500 transition-colors',
                 ]"
@@ -96,7 +98,9 @@ const togglePasswordVisibility = () => {
               <div
                 class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10"
               >
-                <Lock class="h-5 w-5 text-rocket-gray-400" />
+                <Lock
+                  class="h-5 w-5 text-rocket-gray-400 dark:text-rocket-gray-300"
+                />
               </div>
               <input
                 id="password"
@@ -107,7 +111,7 @@ const togglePasswordVisibility = () => {
                 placeholder="Digite a sua senha"
                 :class="[
                   'relative block w-full pl-10 pr-3 py-3 border border-rocket-gray-300',
-                  'dark:border-rocket-gray-700 placeholder-rocket-gray-500 dark:placeholder-rocket-gray-400',
+                  'dark:border-rocket-gray-700 placeholder-rocket-gray-500 dark:placeholder-rocket-gray-300',
                   'text-rocket-gray-900 dark:text-white rounded-lg bg-white dark:bg-rocket-gray-800',
                   'focus:outline-none focus:ring-rocket-purple-500 focus:border-rocket-purple-500 transition-colors',
                 ]"
@@ -119,11 +123,11 @@ const togglePasswordVisibility = () => {
               >
                 <Eye
                   v-if="showPassword"
-                  class="h-5 w-5 text-rocket-gray-400 hover:text-rocket-gray-600 dark:hover:text-rocket-gray-300"
+                  class="h-5 w-5 text-rocket-gray-400 hover:text-rocket-gray-600 dark:hover:text-rocket-gray-300 hover:cursor-pointer"
                 />
                 <EyeOff
                   v-else
-                  class="h-5 w-5 text-rocket-gray-400 hover:text-rocket-gray-600 dark:hover:text-rocket-gray-300"
+                  class="h-5 w-5 text-rocket-gray-400 hover:text-rocket-gray-600 dark:hover:text-rocket-gray-300 hover:cursor-pointer"
                 />
               </button>
             </div>
