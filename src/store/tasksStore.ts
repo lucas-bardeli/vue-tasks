@@ -100,20 +100,25 @@ export const useTasksStore = defineStore("tasks", () => {
     }
   };
 
+  // const deleteTask = async (id: number): Promise<void> => {
+  //   loading.value = true;
+  //   error.value = null;
+  //   try {
+  //     await tasksService.delete(id);
+  //     tasks.value = tasks.value.filter((task) => task.id !== id);
+  //   } catch (err) {
+  //     const axiosError = err as { response?: { data?: { message?: string } } };
+  //     error.value =
+  //       axiosError.response?.data?.message || "Erro ao deletar tarefa";
+  //     console.log(`Erro ao deletar tarefa: ${err}`);
+  //   } finally {
+  //     loading.value = false;
+  //   }
+  // };
+
+  // Lógica local sem api (deleteTask)
   const deleteTask = async (id: number): Promise<void> => {
-    loading.value = true;
-    error.value = null;
-    try {
-      await tasksService.delete(id);
-      tasks.value = tasks.value.filter((task) => task.id !== id);
-    } catch (err) {
-      const axiosError = err as { response?: { data?: { message?: string } } };
-      error.value =
-        axiosError.response?.data?.message || "Erro ao deletar tarefa";
-      console.log(`Erro ao deletar tarefa: ${err}`);
-    } finally {
-      loading.value = false;
-    }
+    tasks.value = tasks.value.filter((task) => task.id !== id);
   };
 
   const pendingTasks = computed(() => {

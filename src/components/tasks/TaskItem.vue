@@ -3,6 +3,7 @@ import type { Task } from "@/services/tasksService";
 import { Check, Trash2, Pencil } from "lucide-vue-next";
 import { useTasksStore } from "@/store/tasksStore";
 import { computed, ref } from "vue";
+import Swal from "sweetalert2";
 
 const props = defineProps<{
   task: Task;
@@ -37,11 +38,49 @@ const saveTaskEdit = async () => {
       return;
     }
     await tasksStore.updateTask(props.task.id, editingTitle.value);
-    alert("Tarefa atualizada com sucesso!");
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Tarefa atualizada com sucesso!",
+      showConfirmButton: false,
+      timer: 2000,
+      theme: "auto",
+    });
   } catch (err) {
     console.error("Erro ao atualizar tarefa: ", err);
   } finally {
     cancelTaskEdit();
+  }
+};
+
+const handleDeleteTask = async () => {
+  try {
+    await Swal.fire({
+      title: "Excluir tarefa?",
+      theme: "auto",
+      text: "Esta ação não pode ser desfeita!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sim, excluir!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        tasksStore.deleteTask(props.task.id);
+        Swal.fire({
+          title: "Excluída!",
+          text: "Tarefa excluída com sucesso!",
+          icon: "success",
+          theme: "auto",
+        });
+      }
+    });
+  } catch (err) {
+    Swal.fire({
+      title: "Erro!",
+      text: "Erro ao excluir tarefa!",
+      icon: "error",
+      theme: "auto",
+    });
   }
 };
 </script>
@@ -103,16 +142,17 @@ const saveTaskEdit = async () => {
         v-if="!isEditing"
         @click="editingTask"
         :class="[
-          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-rocket-purple-500 hover:bg-rocket-purple-400',
+          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-rocket-purple-600 hover:bg-rocket-purple-400',
           'dark:hover:bg-rocket-purple-900/30 rounded-lg transition-colors cursor-pointer',
         ]"
       >
         <Pencil class="w-5 h-5" />
       </button>
       <button
+        @click="handleDeleteTask"
         :class="[
-          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-rocket-purple-500 hover:bg-rocket-purple-400',
-          'dark:hover:bg-rocket-purple-900/30 rounded-lg transition-colors cursor-pointer',
+          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-red-500 hover:bg-red-300',
+          'dark:hover:bg-red-700/30 rounded-lg transition-colors cursor-pointer',
         ]"
       >
         <Trash2 class="w-5 h-5" />
