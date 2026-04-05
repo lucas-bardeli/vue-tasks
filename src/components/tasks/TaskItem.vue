@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Task } from "@/services/tasksService";
-import { Check } from "lucide-vue-next";
+import { Check, Trash2, Pencil } from "lucide-vue-next";
 import { useTasksStore } from "@/store/tasksStore";
 import { computed, ref } from "vue";
 
@@ -79,6 +79,11 @@ const saveTaskEdit = async () => {
         v-model="editingTitle"
         @keyup.esc="cancelTaskEdit"
         @keyup.enter="saveTaskEdit"
+        :class="[
+          'w-full px-3 py-2 border border-rocket-gray-300 dark:border-rocket-gray-700',
+          'rounded-lg bg-white dark:bg-rocket-gray-800 text-rocket-gray-900 dark:text-white',
+          'focus:outline-none focus:ring-1 focus:ring-rocket-purple-500 focus:border-rocket-purple-500 transition-colors',
+        ]"
       />
       <p
         v-else
@@ -92,6 +97,26 @@ const saveTaskEdit = async () => {
       >
         {{ task.title }}
       </p>
+    </div>
+    <div class="flex gap-2">
+      <button
+        v-if="!isEditing"
+        @click="editingTask"
+        :class="[
+          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-rocket-purple-500 hover:bg-rocket-purple-400',
+          'dark:hover:bg-rocket-purple-900/30 rounded-lg transition-colors cursor-pointer',
+        ]"
+      >
+        <Pencil class="w-5 h-5" />
+      </button>
+      <button
+        :class="[
+          'p-2 bg-rocket-gray-100 dark:bg-rocket-gray-700 text-rocket-purple-500 hover:bg-rocket-purple-400',
+          'dark:hover:bg-rocket-purple-900/30 rounded-lg transition-colors cursor-pointer',
+        ]"
+      >
+        <Trash2 class="w-5 h-5" />
+      </button>
     </div>
   </div>
 </template>

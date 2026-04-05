@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LoaderCircle } from "lucide-vue-next";
+import { Info, LoaderCircle } from "lucide-vue-next";
 import TaskForm from "@/components/tasks/TaskForm.vue";
 import TaskList from "@/components/tasks/TaskList.vue";
 import { useTasksStore } from "@/store/tasksStore";
@@ -24,8 +24,15 @@ const handleCreateTask = async (title: string) => {
   <div>
     <div class="max-w-4xl mx-auto space-y-6">
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-rocket-gray-900 dark:text-white">
+        <h1
+          class="text-2xl font-bold text-rocket-gray-900 dark:text-white flex items-center gap-2"
+        >
           Minhas Tarefas
+          <p
+            title="Você pode editar uma tarefa clicando duas vezes nela, pressione enter para salvar e esc para cancelar"
+          >
+            <Info class="w-5 h-5 text-rocket-purple-500" />
+          </p>
         </h1>
       </div>
 
