@@ -19,8 +19,14 @@ const handleToggleTask = async () => {
 </script>
 
 <template>
-  <div>
-    <label>
+  <div
+    :class="[
+      'bg-white dark:bg-rocket-gray-800 p-3 rounded-lg border border-rocket-gray-200 dark:border-rocket-gray-700',
+      task.done ? 'opacity-70' : '',
+      'flex items-center gap-4 transition-all',
+    ]"
+  >
+    <label class="relative inline-flex items-center cursor-pointer">
       <input
         type="checkbox"
         :checked="task.done"
@@ -39,8 +45,17 @@ const handleToggleTask = async () => {
         <Check v-if="task.done" class="w-5 h-5 text-white" />
       </div>
     </label>
-    <div>
-      <p>{{ task.title }}</p>
+    <div class="flex-1">
+      <p
+        :class="[
+          'cursor-pointer select-none',
+          task.done
+            ? 'line-through text-rocket-gray-500 dark:text-rocket-gray-300'
+            : 'text-rocket-gray-900 dark:text-white',
+        ]"
+      >
+        {{ task.title }}
+      </p>
     </div>
   </div>
 </template>
