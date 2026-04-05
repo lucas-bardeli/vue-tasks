@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { Rocket, User, Eye, EyeOff, Lock, LogIn } from "lucide-vue-next";
+import { User, Eye, EyeOff, Lock, LogIn } from "lucide-vue-next";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/authStore";
+import VueTasks from "@/components/VueTasks.vue";
+import { togglePasswordVisibility, showPassword } from "@/utils/password";
 
 const router = useRouter();
 const loading = ref(false);
-const showPassword = ref(false);
 const authStore = useAuthStore();
 
 const form = ref({
@@ -23,14 +24,6 @@ const handleLogin = async () => {
     loading.value = false;
   }
 };
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
-  const passwordInput = document.getElementById("password") as HTMLInputElement;
-  if (passwordInput) {
-    passwordInput.type = showPassword.value ? "text" : "password";
-  }
-};
 </script>
 
 <template>
@@ -42,12 +35,7 @@ const togglePasswordVisibility = () => {
   >
     <div class="max-w-md w-full space-y-8">
       <div class="text-center">
-        <div class="flex items-center justify-center gap-2 mb-6">
-          <Rocket class="w-8 h-8 text-rocket-purple-500" />
-          <h1 class="text-3xl font-bold text-rocket-gray-900 dark:text-white">
-            Vue Tasks
-          </h1>
-        </div>
+        <VueTasks />
         <h2 class="text-2xl font-bold text-rocket-gray-900 dark:text-white">
           Entre na sua conta
         </h2>
