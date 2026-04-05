@@ -139,7 +139,7 @@ const handleLogin = async () => {
         v-if="authStore.hasError"
         class="p-3 bg-red-200 text-red-700 text-center rounded-lg font-bold"
       >
-        <p class="">{{ authStore?.error }}</p>
+        <p>{{ authStore?.error }}</p>
       </div>
     </div>
   </div>
