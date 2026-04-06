@@ -83,14 +83,26 @@ const handleDeleteTask = async () => {
     });
   }
 };
+
+const handleDragStart = (event: DragEvent) => {
+  tasksStore.setDraggedTask(props.task);
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", props.task.id.toString());
+  }
+};
 </script>
 
 <template>
   <div
+    draggable="true"
+    @dragstart="handleDragStart"
+    @dragend="tasksStore.clearDraggedTask"
     :class="[
       'bg-white dark:bg-rocket-gray-800 p-3 rounded-lg border border-rocket-gray-200 dark:border-rocket-gray-700',
       task.done ? 'opacity-70' : '',
       'flex items-center gap-4 transition-all',
+      tasksStore.draggedTaskId === task.id ? 'opacity-50' : 'hover:shadow-md',
     ]"
   >
     <label class="relative inline-flex items-center cursor-pointer">

@@ -29,7 +29,7 @@ const handleCreateTask = async (title: string) => {
         >
           Minhas Tarefas
           <p
-            title="Você pode editar uma tarefa clicando duas vezes nela, pressione enter para salvar e esc para cancelar"
+            title="Você pode editar uma tarefa clicando duas vezes nela, pressione ENTER para salvar e ESC para cancelar"
           >
             <Info class="w-5 h-5 text-rocket-purple-500" />
           </p>
@@ -62,8 +62,16 @@ const handleCreateTask = async (title: string) => {
       </div>
 
       <div v-else class="space-y-8">
-        <TaskList title="Pendentes" :tasks="tasksStore.pendingTasks" />
-        <TaskList title="Concluídas" :tasks="tasksStore.completedTasks" />
+        <TaskList
+          title="Pendentes"
+          :tasks="tasksStore.pendingTasks"
+          drop-zone="pending"
+        />
+        <TaskList
+          title="Concluídas"
+          :tasks="tasksStore.completedTasks"
+          drop-zone="completed"
+        />
       </div>
     </div>
   </div>
