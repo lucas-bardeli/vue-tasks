@@ -5,9 +5,9 @@ import { storage } from "@/utils/storage";
 import { useRouter } from "vue-router";
 import type {
   AuthCredentials,
+  AuthError,
   AuthResponse,
   User,
-  AuthError,
 } from "@/types/auth";
 
 export const useAuthStore = defineStore("auth", () => {
