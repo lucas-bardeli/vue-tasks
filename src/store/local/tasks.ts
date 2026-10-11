@@ -6,7 +6,7 @@ import { storage } from "@/utils/storage";
 const tasksKey = (userId: string) => `local:tasks:${userId}`;
 
 const getCurrentUserId = (): string => {
-  const savedUser = storage.get("user");
+  const savedUser = storage.get("local:user");
   if (!savedUser) {
     throw new Error("Faça login para acessar suas tarefas.");
   }
