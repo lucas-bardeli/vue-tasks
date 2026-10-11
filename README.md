@@ -48,6 +48,35 @@ cd vue-tasks
 npm install
 ```
 
+Crie o arquivo `.env` a partir do `.env.example`. Por padrão, o projeto usa o
+modo local:
+
+```env
+VITE_DATA_MODE=local
+VITE_API_URL=http://localhost:3000/api
+```
+
+### Modo de dados
+
+O modo é escolhido pela variável `VITE_DATA_MODE` e pode ser `local` ou `api`.
+Se a variável estiver ausente ou tiver qualquer outro valor, a aplicação usa
+`local`.
+
+- **`local`**: login, cadastro e tarefas funcionam no navegador. Contas e tarefas
+  são mantidas no `localStorage`; as tarefas ficam separadas por conta local.
+- **`api`**: os stores usam os serviços HTTP existentes. Configure
+  `VITE_API_URL` com o endereço da API antes de gerar a build.
+
+> **Aviso sobre o modo local:** ele serve para demonstração e não fornece
+> autenticação nem privacidade reais. Os dados ficam no armazenamento do
+> navegador, podem ser lidos ou alterados por quem tiver acesso ao navegador
+> ou às ferramentas de desenvolvimento e são apagados se o armazenamento do
+> site for limpo. A senha é armazenada como hash com salt, não em texto puro,
+> mas isso não torna o sistema seguro: use apenas dados fictícios e não
+> reutilize senhas reais. As contas e tarefas não são enviadas a um servidor,
+> sincronizadas entre dispositivos nem protegidas contra alguém com acesso ao
+> mesmo perfil do navegador.
+
 ### Desenvolvimento
 
 Para rodar o projeto localmente com hot-reload:

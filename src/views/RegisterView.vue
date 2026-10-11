@@ -3,7 +3,7 @@ import { ref } from "vue";
 import VueTasks from "@/components/VueTasks.vue";
 import { User, Lock, UserPlus, Eye, EyeOff } from "lucide-vue-next";
 import { togglePasswordVisibility, showPassword } from "@/utils/password";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/store";
 
 const authStore = useAuthStore();
 const loading = ref(false);

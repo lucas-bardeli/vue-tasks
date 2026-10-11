@@ -1,10 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { storage } from "@/utils/storage";
-
-export interface AuthError extends Error {
-  response?: unknown;
-  isAuthError?: boolean;
-}
+import type { AuthError } from "@/types/auth";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,

@@ -1,18 +1,14 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import {
-  authService,
-  type AuthCredentials,
-  type AuthResponse,
-} from "@/services/authService";
+import { authService } from "@/services/authService";
 import { storage } from "@/utils/storage";
 import { useRouter } from "vue-router";
-import type { AuthError } from "@/services/api";
-
-interface User {
-  id: string;
-  username: string;
-}
+import type {
+  AuthCredentials,
+  AuthResponse,
+  User,
+  AuthError,
+} from "@/types/auth";
 
 export const useAuthStore = defineStore("auth", () => {
   const router = useRouter();

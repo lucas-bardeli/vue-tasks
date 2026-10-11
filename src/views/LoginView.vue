@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { User, Eye, EyeOff, Lock, LogIn } from "lucide-vue-next";
 import { ref } from "vue";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/store";
 import VueTasks from "@/components/VueTasks.vue";
 import { togglePasswordVisibility, showPassword } from "@/utils/password";
 

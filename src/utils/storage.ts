@@ -1,9 +1,10 @@
 export const storage = {
-  get(key: string) {
+  get(key: string): string | null {
     try {
       return localStorage.getItem(key);
     } catch (error) {
-      console.error(`Erro ao acessar o localStorage: ${error}`);
+      console.error("Erro ao acessar o localStorage:", error);
+      throw error;
     }
   },
 
@@ -11,7 +12,8 @@ export const storage = {
     try {
       localStorage.setItem(key, value);
     } catch (error) {
-      console.error(`Erro ao salvar no localStorage: ${error}`);
+      console.error("Erro ao acessar o localStorage:", error);
+      throw error;
     }
   },
 
@@ -19,7 +21,8 @@ export const storage = {
     try {
       localStorage.removeItem(key);
     } catch (error) {
-      console.error(`Erro ao remover do localStorage: ${error}`);
+      console.error("Erro ao acessar o localStorage:", error);
+      throw error;
     }
   },
 };

@@ -13,3 +13,8 @@ export interface AuthResponse {
   userId: string;
   username: string;
 }
+
+export interface AuthError extends Error {
+  response?: unknown;
+  isAuthError?: boolean;
+}
