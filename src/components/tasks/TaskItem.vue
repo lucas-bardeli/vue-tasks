@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Task } from "@/services/tasksService";
+import type { Task } from "@/types/task";
 import { Check, Trash2, Pencil } from "lucide-vue-next";
 import { useTasksStore } from "@/store/tasksStore";
 import { computed, ref } from "vue";
