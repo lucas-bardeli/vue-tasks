@@ -1,15 +1,13 @@
 import { defineStore } from "pinia";
 import { tasksService } from "@/services/tasksService";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import type { Task } from "@/types/task";
+import { useTaskBoard } from "@/composables/useTaskBoard";
 
 export const useTasksStore = defineStore("tasks", () => {
   const tasks = ref<Task[]>([]);
   const error = ref<string | null>(null);
   const loading = ref<boolean>(false);
-  const editingTaskId = ref<number | null>(null);
-  const draggedTaskId = ref<number | null>(null);
-  const dragOverTarget = ref<string | null>(null);
 
   const loadTasks = async (): Promise<void> => {
     try {
@@ -20,7 +18,7 @@ export const useTasksStore = defineStore("tasks", () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       error.value =
         axiosError.response?.data?.message || "Erro ao carregar tarefas";
-      console.log(`Erro ao carregar tarefas: ${err}`);
+      console.error("Erro ao carregar tarefas:", err);
     } finally {
       loading.value = false;
     }
@@ -40,7 +38,7 @@ export const useTasksStore = defineStore("tasks", () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       error.value =
         axiosError.response?.data?.message || "Erro ao criar tarefa";
-      console.log(`Erro ao criar tarefa: ${err}`);
+      console.error("Erro ao criar tarefa:", err);
       throw err;
     } finally {
       loading.value = false;
@@ -70,7 +68,7 @@ export const useTasksStore = defineStore("tasks", () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       error.value =
         axiosError.response?.data?.message || "Erro ao atualizar tarefa";
-      console.log(`Erro ao atualizar tarefa: ${err}`);
+      console.error("Erro ao atualizar tarefa:", err);
       throw err;
     } finally {
       loading.value = false;
@@ -87,19 +85,11 @@ export const useTasksStore = defineStore("tasks", () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       error.value =
         axiosError.response?.data?.message || "Erro ao deletar tarefa";
-      console.log(`Erro ao deletar tarefa: ${err}`);
+      console.error("Erro ao deletar tarefa:", err);
     } finally {
       loading.value = false;
     }
   };
-
-  const pendingTasks = computed(() => {
-    return tasks.value.filter((task) => !task.done);
-  });
-
-  const completedTasks = computed(() => {
-    return tasks.value.filter((task) => task.done);
-  });
 
   const toggleTask = async (id: number, done: boolean): Promise<Task> => {
     try {
@@ -113,46 +103,23 @@ export const useTasksStore = defineStore("tasks", () => {
       const axiosError = err as { response?: { data?: { message?: string } } };
       error.value =
         axiosError.response?.data?.message || "Erro ao atualizar tarefa";
-      console.log(`Erro ao atualizar tarefa: ${err}`);
+      console.error("Erro ao atualizar tarefa:", err);
       throw err;
     }
   };
 
-  const setEditingTaskId = (task: Task | null): void => {
-    editingTaskId.value = null;
-    if (task) editingTaskId.value = task.id;
-  };
-
-  // Drag and Drop
-  const setDraggedTask = (task: Task) => {
-    draggedTaskId.value = task.id;
-  };
-  const setDragOverTarget = (target: string | null): void => {
-    dragOverTarget.value = target;
-  };
-  const clearDraggedTask = (): void => {
-    draggedTaskId.value = null;
-    dragOverTarget.value = null;
-  };
-
-  const handleDrop = async (
-    taskId: number,
-    targetDone: boolean,
-  ): Promise<void> => {
-    const task = tasks.value.find((t) => t.id === taskId);
-    if (!task || task.done === targetDone) {
-      clearDraggedTask();
-      return;
-    }
-
-    try {
-      await toggleTask(taskId, targetDone);
-    } catch (err) {
-      console.error("Erro ao atualizar tarefa: ", err);
-    } finally {
-      clearDraggedTask();
-    }
-  };
+  const {
+    editingTaskId,
+    setEditingTaskId,
+    pendingTasks,
+    completedTasks,
+    draggedTaskId,
+    dragOverTarget,
+    setDraggedTask,
+    setDragOverTarget,
+    clearDraggedTask,
+    handleDrop,
+  } = useTaskBoard(tasks, toggleTask);
 
   return {
     loadTasks,
