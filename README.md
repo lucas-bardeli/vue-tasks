@@ -4,11 +4,12 @@ Uma aplicação moderna e reativa para gerenciamento de tarefas, desenvolvida co
 
 ## ✨ Funcionalidades
 
-- **🔐 Autenticação Completa**: Sistema de login e registro de usuários com persistência de sessão.
+- **🔐 Autenticação Completa**: Sistema de login e registro locais para simular contas de usuários.
 - **📋 Gestão de Tarefas**: Criação, edição, exclusão e visualização de tarefas de forma intuitiva.
 - **🔄 Drag & Drop**: Interface interativa para organizar tarefas arrastando e soltando.
-- **📱 Design Responsivo**: Interface moderna e adaptável para qualquer dispositivo utilizando Tailwind CSS.
-- **⚡ Performance**: Navegação instantânea e gerenciamento de estado global otimizado.
+- **🛡️ Segurança Local**: Senhas armazenadas como hash PBKDF2 com salt, garantindo maior segurança no armazenamento local.
+- **🗂️ Armazenamento Local**: Todas as informações são salvas no `localStorage`, permitindo persistência de dados entre sessões.
+- **🎨 Dark Mode**: Suporte a tema escuro para melhor experiência visual com Tailwind CSS.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -19,53 +20,37 @@ Este projeto utiliza as melhores práticas e ferramentas do desenvolvimento fron
 - [**Pinia**](https://pinia.vuejs.org/) - Gerenciamento de estado global (Store).
 - [**Vue Router**](https://router.vuejs.org/) - Navegação e controle de rotas dinâmicas.
 - [**Tailwind CSS**](https://tailwindcss.com/) - Estilização moderna baseada em utilitários.
-- [**Axios**](https://axios-http.com/) - Consumo de APIs REST.
 - [**TypeScript**](https://www.typescriptlang.org/) - Tipagem estática para maior segurança e produtividade.
 
 ## 🚀 Como Executar o Projeto
 
-### Pré-requisitos
+A aplicação está publicada na **Vercel**:
+
+[https://vue-tasks-one.vercel.app/](https://vue-tasks-one.vercel.app/)
+
+Mas se você quiser rodar localmente, siga os passos abaixo.
 
 Certifique-se de ter o [Node.js](https://nodejs.org/) instalado em sua máquina.
 
-### Instalação
-
-1. Clone o repositório:
-
 ```bash
-git clone https://github.com/seu-usuario/vue-tasks.git
-```
-
-2. Entre no diretório do projeto:
-
-```bash
+# 1. Clone o repositório:
+git clone https://github.com/lucas-bardeli/vue-tasks.git
+# 2. Entre no diretório do projeto:
 cd vue-tasks
+# 3. Instale as dependências:
+npm install
+# 4. Inicie o servidor de desenvolvimento:
+npm run dev
 ```
 
-3. Instale as dependências:
+O servidor de desenvolvimento informa o endereço local, normalmente
+`http://localhost:5173`.
+
+Para validar os tipos e gerar uma build de produção:
 
 ```bash
-npm install
+npm run build
 ```
-
-Crie o arquivo `.env` a partir do `.env.example`. Por padrão, o projeto usa o
-modo local:
-
-```env
-VITE_DATA_MODE=local
-VITE_API_URL=http://localhost:3000/api
-```
-
-### Modo de dados
-
-O modo é escolhido pela variável `VITE_DATA_MODE` e pode ser `local` ou `api`.
-Se a variável estiver ausente ou tiver qualquer outro valor, a aplicação usa
-`local`.
-
-- **`local`**: login, cadastro e tarefas funcionam no navegador. Contas e tarefas
-  são mantidas no `localStorage`; as tarefas ficam separadas por conta local.
-- **`api`**: os stores usam os serviços HTTP existentes. Configure
-  `VITE_API_URL` com o endereço da API antes de gerar a build.
 
 > **Aviso sobre o modo local:** ele serve para demonstração e não fornece autenticação nem privacidade reais.
 > Os dados ficam no armazenamento do navegador, podem ser lidos ou alterados por quem tiver acesso ao navegador
@@ -74,21 +59,3 @@ Se a variável estiver ausente ou tiver qualquer outro valor, a aplicação usa
 > mas isso não torna o sistema seguro: use apenas dados fictícios e não reutilize senhas reais.
 > As contas e tarefas não são enviadas a um servidor,
 > sincronizadas entre dispositivos nem protegidas contra alguém com acesso ao mesmo perfil do navegador.
-
-### Desenvolvimento
-
-Para rodar o projeto localmente com hot-reload:
-
-```bash
-npm run dev
-```
-
-O projeto estará disponível em `http://localhost:5173`.
-
-### Produção
-
-Para gerar a build de produção:
-
-```bash
-npm run build
-```

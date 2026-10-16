@@ -1,10 +1,11 @@
 import { ref, onMounted } from "vue";
+import { storage } from "@/utils/storage";
 
 export function useTheme() {
   const isDark = ref(false);
 
   const initializeTheme = () => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = storage.get("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
     ).matches;
@@ -12,6 +13,9 @@ export function useTheme() {
     if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
       isDark.value = true;
       document.documentElement.classList.add("dark");
+    } else {
+      isDark.value = false;
+      document.documentElement.classList.remove("dark");
     }
   };
 
@@ -24,12 +28,12 @@ export function useTheme() {
 
     if (isDark.value) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      storage.set("theme", "dark");
       return;
     }
 
     document.documentElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
+    storage.set("theme", "light");
   };
 
   return { isDark, toggleTheme, initializeTheme };

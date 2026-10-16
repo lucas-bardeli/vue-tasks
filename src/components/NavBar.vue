@@ -37,7 +37,6 @@ const handleLogout = () => {
       title="Cadastre-se"
       redirectTo="/register"
     />
-    <MenuItem v-if="isAuthenticated" title="Tarefas" redirectTo="/tasks" />
     <div class="flex items-center gap-2">
       <button
         v-if="isAuthenticated"
