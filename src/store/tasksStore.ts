@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import type { Task } from "@/types/task";
 import { storage } from "@/utils/storage";
-import { useTaskBoard } from "@/composables/useTaskBoard";
 
 const tasksKey = (userId: string) => `local:tasks:${userId}`;
 
@@ -52,6 +51,9 @@ export const useTasksStore = defineStore("tasks", () => {
   const tasks = ref<Task[]>([]);
   const error = ref<string | null>(null);
   const loading = ref<boolean>(false);
+  const editingTaskId = ref<number | null>(null);
+  const draggedTaskId = ref<number | null>(null);
+  const dragOverTarget = ref<string | null>(null);
 
   const runLocalAction = async <T>(action: () => T): Promise<T> => {
     loading.value = true;
@@ -61,7 +63,6 @@ export const useTasksStore = defineStore("tasks", () => {
     } catch (err) {
       error.value =
         err instanceof Error ? err.message : "Erro ao acessar tarefas locais.";
-      console.error("Erro ao acessar tarefas locais:", err);
       throw err;
     } finally {
       loading.value = false;
@@ -121,6 +122,14 @@ export const useTasksStore = defineStore("tasks", () => {
     });
   };
 
+  const pendingTasks = computed(() => {
+    return tasks.value.filter((task) => !task.done);
+  });
+
+  const completedTasks = computed(() => {
+    return tasks.value.filter((task) => task.done);
+  });
+
   const toggleTask = async (id: number, done: boolean) => {
     return runLocalAction(() => {
       const userId = getCurrentUserId();
@@ -137,18 +146,41 @@ export const useTasksStore = defineStore("tasks", () => {
     });
   };
 
-  const {
-    editingTaskId,
-    setEditingTaskId,
-    pendingTasks,
-    completedTasks,
-    draggedTaskId,
-    dragOverTarget,
-    setDraggedTask,
-    setDragOverTarget,
-    clearDraggedTask,
-    handleDrop,
-  } = useTaskBoard(tasks, toggleTask);
+  const setEditingTaskId = (task: Task | null): void => {
+    editingTaskId.value = null;
+    if (task) editingTaskId.value = task.id;
+  };
+
+  // Drag and Drop
+  const setDraggedTask = (task: Task) => {
+    draggedTaskId.value = task.id;
+  };
+  const setDragOverTarget = (target: string | null): void => {
+    dragOverTarget.value = target;
+  };
+  const clearDraggedTask = (): void => {
+    draggedTaskId.value = null;
+    dragOverTarget.value = null;
+  };
+
+  const handleDrop = async (
+    taskId: number,
+    targetDone: boolean,
+  ): Promise<void> => {
+    const task = tasks.value.find((t) => t.id === taskId);
+    if (!task || task.done === targetDone) {
+      clearDraggedTask();
+      return;
+    }
+
+    try {
+      await toggleTask(taskId, targetDone);
+    } catch (err) {
+      console.error("Erro ao atualizar tarefa: ", err);
+    } finally {
+      clearDraggedTask();
+    }
+  };
 
   return {
     loadTasks,

@@ -2,12 +2,12 @@ import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
 import { storage } from "@/utils/storage";
-import type { AuthCredentials, AuthResponse, User } from "@/types/auth";
-
-interface LocalAccount extends User {
-  salt: string;
-  passwordHash: string;
-}
+import type {
+  AuthCredentials,
+  AuthResponse,
+  LocalAccount,
+  User,
+} from "@/types/auth";
 
 const accountsKey = "local:accounts";
 const tokenKey = "local:token";

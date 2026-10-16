@@ -2,7 +2,7 @@
 import { Moon, Sun, Rocket } from "lucide-vue-next";
 import MenuItem from "./MenuItem.vue";
 import { useTheme } from "@/composables/useTheme";
-import { useAuthStore } from "@/store";
+import { useAuthStore } from "@/store/authStore";
 import { computed } from "vue";
 
 const { isDark, toggleTheme } = useTheme();

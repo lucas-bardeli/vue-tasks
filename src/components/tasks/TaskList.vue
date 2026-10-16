@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Task } from "@/types/task";
 import TaskItem from "./TaskItem.vue";
-import { useTasksStore } from "@/store";
+import { useTasksStore } from "@/store/tasksStore";
 
 const props = defineProps({
   title: {

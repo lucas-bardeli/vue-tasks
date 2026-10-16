@@ -3,6 +3,11 @@ export interface User {
   username: string;
 }
 
+export interface LocalAccount extends User {
+  salt: string;
+  passwordHash: string;
+}
+
 export interface AuthCredentials {
   username: string;
   password: string;
@@ -12,9 +17,4 @@ export interface AuthResponse {
   token: string;
   userId: string;
   username: string;
-}
-
-export interface AuthError extends Error {
-  response?: unknown;
-  isAuthError?: boolean;
 }

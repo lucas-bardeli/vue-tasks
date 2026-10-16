@@ -2,7 +2,7 @@
 import { Info, LoaderCircle } from "lucide-vue-next";
 import TaskForm from "@/components/tasks/TaskForm.vue";
 import TaskList from "@/components/tasks/TaskList.vue";
-import { useTasksStore } from "@/store";
+import { useTasksStore } from "@/store/tasksStore";
 import { onMounted } from "vue";
 
 const tasksStore = useTasksStore();
